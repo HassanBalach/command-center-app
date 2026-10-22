@@ -1,9 +1,8 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 // The app loads the hosted Next.js site (it needs the server for search and audit).
-// Dev: CAP_SERVER_URL=http://<your-computer-LAN-IP>:3100 on the same Wi-Fi as the phone.
-// Release: set it to the deployed https URL.
-const url = process.env.CAP_SERVER_URL;
+// Default: the deployed site. For local testing set CAP_SERVER_URL=http://<LAN-IP>:3100.
+const url = process.env.CAP_SERVER_URL ?? "https://command-center-app-puce.vercel.app";
 
 const config: CapacitorConfig = {
   appId: "com.hassan.commandcenter",
