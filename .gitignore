@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+android/app/build/
+command-center.apk
+android/local.properties
+
+# keep the example env file
+!.env.example
