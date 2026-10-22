@@ -147,9 +147,9 @@ export default function LeadSearch() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="dentists in Dubai, gyms in Lahore, plumbers in London"
-          className="min-w-0 flex-1 rounded-xl border border-line bg-surface px-4 py-3 outline-none focus:border-accent"
+          className="min-w-0 flex-1 rounded-2xl border border-line bg-surface px-4 py-3.5 font-semibold outline-none focus:border-accent"
         />
-        <button className="rounded-xl bg-accent px-5 font-semibold text-accent-ink">
+        <button className="rounded-2xl bg-accent px-6 font-extrabold text-accent-ink">
           {loading ? "…" : "Find"}
         </button>
       </form>
@@ -159,7 +159,7 @@ export default function LeadSearch() {
           <>
             <button
               onClick={() => setNearMe((v) => !v)}
-              className={`rounded-full px-3 py-1.5 ${nearMe ? "bg-accent font-semibold text-accent-ink" : "border border-line bg-surface text-muted"}`}
+              className={`rounded-full px-3.5 py-2 font-bold ${nearMe ? "bg-accent font-semibold text-accent-ink" : "border border-line bg-surface text-muted"}`}
             >
               📍 Near me
             </button>
@@ -167,7 +167,7 @@ export default function LeadSearch() {
               <select
                 value={radiusKm}
                 onChange={(e) => setRadiusKm(Number(e.target.value))}
-                className="rounded-full border border-line bg-surface px-3 py-1.5 text-muted"
+                className="rounded-full border border-line bg-surface px-3.5 py-2 font-semibold text-muted"
               >
                 {[2, 5, 10, 25].map((k) => (
                   <option key={k} value={k}>
@@ -203,14 +203,14 @@ export default function LeadSearch() {
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <button
             onClick={() => setOnlyNoSite((v) => !v)}
-            className={`rounded-full px-3 py-1.5 ${onlyNoSite ? "bg-accent font-semibold text-accent-ink" : "border border-line bg-surface text-muted"}`}
+            className={`rounded-full px-3.5 py-2 font-bold ${onlyNoSite ? "bg-accent font-semibold text-accent-ink" : "border border-line bg-surface text-muted"}`}
           >
             No website
           </button>
           <select
             value={minReviews}
             onChange={(e) => setMinReviews(Number(e.target.value))}
-            className="rounded-full border border-line bg-surface px-3 py-1.5 text-muted"
+            className="rounded-full border border-line bg-surface px-3.5 py-2 font-semibold text-muted"
           >
             <option value={0}>Any reviews</option>
             <option value={20}>20+ reviews</option>
@@ -220,7 +220,7 @@ export default function LeadSearch() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as typeof sort)}
-            className="rounded-full border border-line bg-surface px-3 py-1.5 text-muted"
+            className="rounded-full border border-line bg-surface px-3.5 py-2 font-semibold text-muted"
           >
             <option value="score">Sort: score</option>
             <option value="rating">Sort: rating</option>

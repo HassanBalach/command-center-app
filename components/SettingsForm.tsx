@@ -8,8 +8,8 @@ import { pitchMessage } from "@/lib/pitch";
 import AvatarCropper from "./AvatarCropper";
 import LogoutButton from "./LogoutButton";
 
-const input = "w-full rounded-xl border border-line bg-surface px-4 py-3 outline-none focus:border-accent";
-const card = "space-y-4 rounded-2xl border border-line bg-surface-2/40 p-4";
+const input = "w-full rounded-2xl border border-line bg-surface-2 px-4 py-3 outline-none focus:border-accent";
+const card = "space-y-4 rounded-3xl border border-line bg-surface p-4";
 
 export default function SettingsForm() {
   const [s, setS] = useState<Settings>(DEFAULT_SETTINGS);
@@ -107,7 +107,7 @@ export default function SettingsForm() {
       {cropFile && (
         <AvatarCropper file={cropFile} onCancel={() => setCropFile(null)} onDone={uploadAvatar} />
       )}
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-[28px] font-extrabold tracking-tight">Settings</h1>
 
       <section className={card}>
         <h2 className="font-semibold">Profile</h2>
@@ -228,16 +228,13 @@ export default function SettingsForm() {
         </div>
       </section>
 
-      <div className="flex items-center gap-3">
-        <button onClick={() => save()} className="rounded-xl bg-accent px-6 py-3 font-semibold text-accent-ink">
+      <div className="flex items-center gap-2.5">
+        <button onClick={() => save()} className="h-[50px] flex-1 rounded-2xl bg-accent text-[15px] font-extrabold text-accent-ink">
           Save
         </button>
-        <span className="text-sm text-muted">{status}</span>
+        <LogoutButton className="h-[50px] !rounded-2xl px-6 text-[15px]" />
       </div>
-
-      <div className="border-t border-line pt-5">
-        <LogoutButton className="w-full" />
-      </div>
+      {status && <p className="text-sm text-muted">{status}</p>}
     </div>
   );
 }

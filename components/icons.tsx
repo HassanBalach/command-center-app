@@ -36,3 +36,12 @@ export const SettingsIcon = () => (
 export const WalletIcon = () => (
   <svg {...base}><path d="M3 7a2 2 0 012-2h12v4" /><path d="M3 7v11a2 2 0 002 2h14a1 1 0 001-1v-8a1 1 0 00-1-1H5a2 2 0 01-2-2" /><circle cx="16.5" cy="14.5" r="1.2" /></svg>
 );
+export const ClockIcon = () => (
+  <svg {...base} width={18} height={18}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+);
+export const ReplyIcon = () => (
+  <svg {...base} width={18} height={18}><path d="M9 14L4 9l5-5" /><path d="M4 9h10a6 6 0 016 6v3" /></svg>
+);
+export const ArrowIcon = () => (
+  <svg {...base} width={22} height={22} strokeWidth={2.2}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+);
