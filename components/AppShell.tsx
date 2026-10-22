@@ -6,12 +6,13 @@ import AuthGate from "./AuthGate";
 import LogoutButton from "./LogoutButton";
 import ProfileChip from "./ProfileChip";
 import ThemeToggle from "./ThemeToggle";
-import { CreatorIcon, HomeIcon, PipelineIcon, SearchIcon, SettingsIcon } from "./icons";
+import { CreatorIcon, HomeIcon, PipelineIcon, SearchIcon, SettingsIcon, WalletIcon } from "./icons";
 
 const tabs = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/leads", label: "Leads", Icon: SearchIcon },
   { href: "/pipeline", label: "Pipeline", Icon: PipelineIcon },
+  { href: "/money", label: "Money", Icon: WalletIcon },
   { href: "/creator", label: "Creator", Icon: CreatorIcon },
   { href: "/settings", label: "Settings", Icon: SettingsIcon },
 ];
@@ -60,7 +61,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       </div>
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-10 border-t border-line bg-bg/90 backdrop-blur md:hidden">
-        <ul className="grid grid-cols-5">
+        <ul className="grid grid-cols-6">
           {tabs.map(({ href, label, Icon }) => (
             <li key={href}>
               <Link
