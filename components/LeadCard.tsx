@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { Kind } from "@/lib/supabase";
 import type { Audit } from "@/lib/audit";
 import { mapsLink } from "@/lib/links";
 import ExtLink from "./ExtLink";
@@ -17,9 +18,9 @@ type Props = {
   placeId?: string;
   score: number;
   audit?: Audit | "loading" | null;
-  saved?: boolean;
+  saved?: Kind;
   whatsapp?: string | null;
-  onSave?: () => void;
+  onSave?: (kind: Kind) => void;
   onAudit?: () => void;
 };
 
@@ -89,13 +90,22 @@ export default function LeadCard(p: Props) {
 
       <div className="mt-3.5 flex gap-2">
         {p.onSave && (
-          <button
-            onClick={p.onSave}
-            disabled={p.saved}
-            className="h-11 flex-1 rounded-2xl bg-accent text-sm font-extrabold text-accent-ink disabled:bg-surface-2 disabled:text-muted"
-          >
-            {p.saved ? "Saved ✓" : "Save lead"}
-          </button>
+          <>
+            <button
+              onClick={() => p.onSave?.("lead")}
+              disabled={p.saved === "lead"}
+              className="h-11 flex-1 rounded-2xl bg-accent text-sm font-extrabold text-accent-ink disabled:bg-surface-2 disabled:text-muted"
+            >
+              {p.saved === "lead" ? "Saved ✓" : "Save lead"}
+            </button>
+            <button
+              onClick={() => p.onSave?.("study")}
+              disabled={p.saved === "study"}
+              className="h-11 rounded-2xl border border-line px-4 text-sm font-bold disabled:text-muted"
+            >
+              {p.saved === "study" ? "Studying ✓" : "Study"}
+            </button>
+          </>
         )}
         {p.hasWebsite && p.onAudit && !audit && (
           <button

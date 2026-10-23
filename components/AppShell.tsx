@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLeadsAccess } from "@/lib/access";
 import AuthGate from "./AuthGate";
 import { CreatorIcon, HomeIcon, PipelineIcon, SearchIcon, SettingsIcon, WalletIcon } from "./icons";
 import LogoutButton from "./LogoutButton";
 import ProfileChip from "./ProfileChip";
 import ThemeToggle from "./ThemeToggle";
 
-const tabs = [
+const allTabs = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/leads", label: "Leads", Icon: SearchIcon },
   { href: "/pipeline", label: "Pipeline", Icon: PipelineIcon },
@@ -19,6 +20,8 @@ const tabs = [
 
 function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const leadsAllowed = useLeadsAccess() === true;
+  const tabs = allTabs.filter((t) => leadsAllowed || !["/leads", "/pipeline", "/creator"].includes(t.href));
   const active = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (

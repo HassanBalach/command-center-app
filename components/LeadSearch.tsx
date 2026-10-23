@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Lead } from "@/lib/places";
 import type { Audit } from "@/lib/audit";
-import { supabase } from "@/lib/supabase";
+import { supabase, type Kind } from "@/lib/supabase";
 import { authedFetch } from "@/lib/api";
 import { finalScore } from "@/lib/score";
 import { whatsappLink } from "@/lib/pitch";
@@ -28,9 +28,9 @@ export default function LeadSearch() {
   const [error, setError] = useState("");
   const [audits, setAudits] = useState<Record<string, Audit | "loading">>({});
 
-  const [saved, setSaved] = useState<Record<string, boolean>>({});
+  const [saved, setSaved] = useState<Record<string, Kind>>({});
 
-  async function save(l: Lead) {
+  async function save(l: Lead, kind: Kind) {
     const a = audits[l.id];
     const { error } = await supabase.from("leads").upsert(
       {
@@ -43,11 +43,12 @@ export default function LeadSearch() {
         reviews: l.reviews ?? null,
         score: finalScore(l.score, typeof a === "object" ? a : null),
         audit: typeof a === "object" ? a : null,
+        kind,
       },
-      { onConflict: "user_id,place_id", ignoreDuplicates: true },
+      { onConflict: "user_id,place_id" },
     );
     if (error) setError(error.message.includes("user_id") ? "Sign in first (Pipeline page)" : error.message);
-    else setSaved((s) => ({ ...s, [l.id]: true }));
+    else setSaved((s) => ({ ...s, [l.id]: kind }));
   }
 
   async function runAudit(l: Lead) {
@@ -261,7 +262,7 @@ export default function LeadSearch() {
               audit={a}
               saved={saved[l.id]}
               whatsapp={whatsappLink(l.phone, l.name, !!l.website, audit, settings)}
-              onSave={() => save(l)}
+              onSave={(kind) => save(l, kind)}
               onAudit={() => runAudit(l)}
             />
           );

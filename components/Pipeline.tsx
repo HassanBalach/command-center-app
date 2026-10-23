@@ -5,7 +5,7 @@ import { localDate } from "@/lib/money";
 import { mapsLink } from "@/lib/links";
 import { whatsappLink } from "@/lib/pitch";
 import { useSettings } from "@/lib/settings";
-import { STAGES, supabase, type SavedLead, type Stage } from "@/lib/supabase";
+import { STAGES, supabase, type Kind, type SavedLead, type Stage } from "@/lib/supabase";
 import ExtLink from "./ExtLink";
 import { WhatsAppIcon } from "./icons";
 
@@ -16,6 +16,7 @@ export default function Pipeline() {
   const [leads, setLeads] = useState<SavedLead[]>([]);
   const [today, setToday] = useState("");
   const [tab, setTab] = useState<Tab>("new");
+  const [kind, setKind] = useState<Kind>("lead");
 
   useEffect(() => {
     supabase
@@ -33,10 +34,18 @@ export default function Pipeline() {
     await supabase.from("leads").update(changes).eq("id", id);
   }
 
+  async function remove(l: SavedLead) {
+    if (!confirm(`Delete ${l.name}?`)) return;
+    setLeads((ls) => ls.filter((x) => x.id !== l.id));
+    await supabase.from("leads").delete().eq("id", l.id);
+  }
+
   const isDue = (l: SavedLead) =>
     !!today && !!l.follow_up && l.follow_up <= today && l.stage !== "won" && l.stage !== "lost";
-  const dueCount = leads.filter(isDue).length;
-  const shown = tab === "due" ? leads.filter(isDue) : leads.filter((l) => l.stage === tab);
+  const ofKind = leads.filter((l) => (l.kind ?? "lead") === kind);
+  const studyCount = leads.filter((l) => l.kind === "study").length;
+  const dueCount = ofKind.filter(isDue).length;
+  const shown = kind === "study" ? ofKind : tab === "due" ? ofKind.filter(isDue) : ofKind.filter((l) => l.stage === tab);
 
   const chip = (active: boolean, due = false) =>
     `shrink-0 rounded-full px-4 py-2 text-sm capitalize ${
@@ -52,16 +61,26 @@ export default function Pipeline() {
   return (
     <div className="space-y-4">
       <h1 className="text-[28px] font-extrabold tracking-tight">Pipeline</h1>
+      <div className="flex gap-2">
+        <button onClick={() => setKind("lead")} className={chip(kind === "lead")}>
+          Leads {leads.length - studyCount}
+        </button>
+        <button onClick={() => setKind("study")} className={chip(kind === "study")}>
+          Study {studyCount}
+        </button>
+      </div>
+      {kind === "lead" && (
       <div className="-mx-5 flex gap-2 overflow-x-auto px-5">
         <button onClick={() => setTab("due")} className={chip(tab === "due", true)}>
           Due {dueCount}
         </button>
         {STAGES.map((s) => (
           <button key={s} onClick={() => setTab(s)} className={chip(tab === s)}>
-            {s} {leads.filter((l) => l.stage === s).length}
+            {s} {ofKind.filter((l) => l.stage === s).length}
           </button>
         ))}
       </div>
+      )}
 
       <ul className="space-y-3">
         {shown.map((l) => {
@@ -100,12 +119,12 @@ export default function Pipeline() {
               )}
 
               <details className="mt-3 text-sm">
-                <summary className="cursor-pointer font-semibold text-muted">Notes &amp; follow-up</summary>
+                <summary className="cursor-pointer font-semibold text-muted">{kind === "study" ? "What I learned" : "Notes & follow-up"}</summary>
                 <div className="mt-2 space-y-2">
                   <textarea
                     defaultValue={l.notes ?? ""}
                     onBlur={(e) => e.target.value !== (l.notes ?? "") && patch(l.id, { notes: e.target.value })}
-                    placeholder="What did they say?"
+                    placeholder={kind === "study" ? "What are they doing well?" : "What did they say?"}
                     rows={3}
                     className="w-full rounded-xl border border-line bg-surface-2 px-3 py-2 outline-none focus:border-accent"
                   />
@@ -121,7 +140,22 @@ export default function Pipeline() {
                 </div>
               </details>
 
-              {wa && (
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={() => patch(l.id, { kind: kind === "study" ? "lead" : "study" })}
+                  className="h-10 flex-1 rounded-2xl border border-line text-[13px] font-bold text-muted"
+                >
+                  {kind === "study" ? "Move to leads" : "Move to study"}
+                </button>
+                <button
+                  onClick={() => remove(l)}
+                  className="h-10 rounded-2xl border border-line px-4 text-[13px] font-bold text-red-400"
+                >
+                  Delete
+                </button>
+              </div>
+
+              {kind === "lead" && wa && (
                 <ExtLink
                   href={wa}
                   onClick={() => l.stage === "new" && patch(l.id, { stage: "contacted" })}

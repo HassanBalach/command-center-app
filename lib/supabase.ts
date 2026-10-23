@@ -8,6 +8,9 @@ export const supabase = createClient(
 export const STAGES = ["new", "contacted", "replied", "won", "lost"] as const;
 export type Stage = (typeof STAGES)[number];
 
+export const KINDS = ["lead", "study"] as const;
+export type Kind = (typeof KINDS)[number];
+
 export type SavedLead = {
   id: string;
   place_id: string;
@@ -20,6 +23,7 @@ export type SavedLead = {
   score: number;
   audit: import("./audit").Audit | null;
   stage: Stage;
+  kind: Kind;
   notes: string | null;
   follow_up: string | null;
 };

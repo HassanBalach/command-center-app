@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { authedFetch } from "@/lib/api";
 import { DEFAULT_SETTINGS, SETTINGS_CHANGED, SETTINGS_COLUMNS, type Settings } from "@/lib/settings";
+import { useLeadsAccess } from "@/lib/access";
 import { pitchMessage } from "@/lib/pitch";
 import AvatarCropper from "./AvatarCropper";
 import LogoutButton from "./LogoutButton";
@@ -99,6 +100,7 @@ export default function SettingsForm() {
     await save(next);
   }
 
+  const leadsAllowed = useLeadsAccess() === true;
   const preview = pitchMessage("Acme Dental", false, null, s);
   const initial = (s.display_name?.trim()[0] ?? "?").toUpperCase();
 
@@ -165,6 +167,8 @@ export default function SettingsForm() {
         </label>
       </section>
 
+      {leadsAllowed && (
+        <>
       <section className={card}>
         <h2 className="font-semibold">My location</h2>
         <p className="text-sm text-muted">Used by “Near me” when you search for leads.</p>
@@ -227,6 +231,8 @@ export default function SettingsForm() {
           <p className="text-sm">{preview}</p>
         </div>
       </section>
+        </>
+      )}
 
       <div className="flex items-center gap-2.5">
         <button onClick={() => save()} className="h-[50px] flex-1 rounded-2xl bg-accent text-[15px] font-extrabold text-accent-ink">

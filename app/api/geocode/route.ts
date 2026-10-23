@@ -3,7 +3,7 @@ import { requireUser } from "@/lib/server-auth";
 import { geocode } from "@/lib/places";
 
 export async function GET(request: Request) {
-  const denied = await requireUser(request);
+  const denied = await requireUser(request, "leads");
   if (denied) return denied;
 
   const q = new URL(request.url).searchParams.get("q")?.trim();
