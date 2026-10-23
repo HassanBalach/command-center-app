@@ -54,7 +54,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line bg-bg/90 px-4 py-2.5 backdrop-blur md:hidden">
           <div className="flex min-w-0 items-center gap-3">
             <ProfileChip />
-            <p className="truncate font-extrabold">Command Center</p>
+            <p className="truncate font-extrabold">Jeb Kharcha</p>
           </div>
           <ThemeToggle />
         </header>

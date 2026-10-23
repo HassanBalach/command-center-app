@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Command Center",
-    short_name: "Command",
-    description: "Find leads. Run your socials.",
+    name: "Jeb Kharcha",
+    short_name: "Jeb Kharcha",
+    description: "Your pocket money, tracked.",
     start_url: "/",
     scope: "/",
     display: "standalone",

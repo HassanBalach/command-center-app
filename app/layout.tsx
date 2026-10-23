@@ -10,10 +10,10 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Command Center",
-  description: "Find leads. Run your socials.",
+  title: "Jeb Kharcha",
+  description: "Your pocket money, tracked.",
   icons: { apple: "/icons/apple-touch-icon.png" },
-  appleWebApp: { capable: true, title: "Command Center", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Jeb Kharcha", statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = {

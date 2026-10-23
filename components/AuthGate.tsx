@@ -89,7 +89,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     <div className="mx-auto flex min-h-dvh max-w-sm items-center px-4">
       <form onSubmit={submit} noValidate className="w-full space-y-4 rounded-3xl border border-line bg-surface p-6">
         <div>
-          <h1 className="text-2xl font-bold">Command Center</h1>
+          <h1 className="text-2xl font-bold">Jeb Kharcha</h1>
           <p className="text-muted">{mode === "in" ? "Sign in to continue." : "Create your account."}</p>
         </div>
         <input

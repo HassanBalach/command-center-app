@@ -6,7 +6,7 @@ const url = process.env.CAP_SERVER_URL ?? "https://command-center-app-puce.verce
 
 const config: CapacitorConfig = {
   appId: "com.hassan.commandcenter",
-  appName: "Command Center",
+  appName: "Jeb Kharcha",
   webDir: "cap-web",
   server: url ? { url, cleartext: url.startsWith("http://") } : undefined,
   android: { backgroundColor: "#1b1e27" },
